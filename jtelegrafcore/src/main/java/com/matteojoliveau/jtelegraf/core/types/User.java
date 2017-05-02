@@ -1,5 +1,10 @@
 package com.matteojoliveau.jtelegraf.core.types;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@ToString
 public class User {
     private Long id;
     private String firstName;
@@ -18,20 +23,12 @@ public class User {
         this.username = builder.username;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return firstName;
     }
 
     public String getSurname() {
         return lastName;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public static class Builder {

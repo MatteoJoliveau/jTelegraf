@@ -1,5 +1,10 @@
 package com.matteojoliveau.jtelegraf.core.types;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class Chat {
     private Long id;
     private ChatType type;
