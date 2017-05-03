@@ -1,4 +1,4 @@
-package com.matteojoliveau.jtelegraf.core.util;
+package com.matteojoliveau.jtelegraf.core.config;
 
 public class TelegramInfo {
     private String token;

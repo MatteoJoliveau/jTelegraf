@@ -3,7 +3,7 @@ package com.matteojoliveau.jtelegraf.core;
 import com.matteojoliveau.jtelegraf.core.types.Chat;
 import com.matteojoliveau.jtelegraf.core.types.Update;
 import com.matteojoliveau.jtelegraf.core.types.User;
-import com.matteojoliveau.jtelegraf.core.util.TelegramInfo;
+import com.matteojoliveau.jtelegraf.core.config.TelegramInfo;
 
 public class Context {
     private TelegramInfo telegramInfo;
