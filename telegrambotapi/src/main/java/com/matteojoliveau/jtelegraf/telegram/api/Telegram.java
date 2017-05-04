@@ -36,7 +36,6 @@ public class Telegram {
         if (res != null && res.body().contentType().equals(MediaType.parse("application/json"))) try {
             String body = res.body().string();
             user = objectMapper.readValue(body, UserResultObject.class).getUser();
-            System.out.println(user);
         } catch (IOException e) {
             e.printStackTrace();
         }
