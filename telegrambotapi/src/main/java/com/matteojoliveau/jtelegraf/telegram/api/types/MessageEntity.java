@@ -1,4 +1,4 @@
-package com.matteojoliveau.jtelegraf.core.types;
+package com.matteojoliveau.jtelegraf.telegram.api.types;
 
 public class MessageEntity {
 

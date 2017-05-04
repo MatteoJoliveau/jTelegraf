@@ -1,24 +1,40 @@
-package com.matteojoliveau.jtelegraf.core.types;
+package com.matteojoliveau.jtelegraf.telegram.api.types;
 
 import lombok.ToString;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 @ToString
 public class Message {
+    @JsonProperty("message_id")
     private Long id;
+    @JsonProperty("from")
     private User user;
+    @JsonProperty("chat")
     private Chat chat;
-    private Date date;
+    @JsonProperty("date")
+    private Integer date;
+    @JsonProperty("forward_from")
     private User forwardFrom;
+    @JsonProperty("forward_from_chat")
     private Chat forwardFromChat;
+    @JsonProperty("forward_from_message_id")
     private Long forwardFromMessageId;
-    private Date forwardDate;
+    @JsonProperty("forward_date")
+    private Integer forwardDate;
+    @JsonProperty("reply_to_message")
     private Message replyToMessage;
-    private Date editDate;
+    @JsonProperty("edit_date")
+    private Integer editDate;
+    @JsonProperty("text")
     private String text;
-    private List<MessageEntity> entities;
+    @JsonProperty("entities")
+    private MessageEntity[] entities;
+
+    public Message() {
+    }
 
     private Message(Builder builder) {
         this.id = builder.id;
@@ -47,7 +63,7 @@ public class Message {
         return chat;
     }
 
-    public Date getDate() {
+    public Integer getDate() {
         return date;
     }
 
@@ -63,7 +79,7 @@ public class Message {
         return forwardFromMessageId;
     }
 
-    public Date getForwardDate() {
+    public Integer getForwardDate() {
         return forwardDate;
     }
 
@@ -71,7 +87,7 @@ public class Message {
         return replyToMessage;
     }
 
-    public Date getEditDate() {
+    public Integer getEditDate() {
         return editDate;
     }
 
@@ -80,22 +96,22 @@ public class Message {
     }
 
     public List<MessageEntity> getEntities() {
-        return entities;
+        return Arrays.asList(entities);
     }
 
     public static class Builder {
         private Long id;
         private User user;
         private Chat chat;
-        private Date date;
+        private Integer date;
         private User forwardFrom;
         private Chat forwardFromChat;
         private Long forwardFromMessageId;
-        private Date forwardDate;
+        private Integer forwardDate;
         private Message replyToMessage;
-        private Date editDate;
+        private Integer editDate;
         private String text;
-        private List<MessageEntity> entities;
+        private MessageEntity[] entities;
 
         public Builder id(Long id) {
             this.id = id;
@@ -112,7 +128,7 @@ public class Message {
             return this;
         }
 
-        public Builder date(Date date) {
+        public Builder date(Integer date) {
             this.date = date;
             return this;
         }
@@ -132,7 +148,7 @@ public class Message {
             return this;
         }
 
-        public Builder forwardDate(Date forwardDate) {
+        public Builder forwardDate(Integer forwardDate) {
             this.forwardDate = forwardDate;
             return this;
         }
@@ -147,7 +163,7 @@ public class Message {
             return this;
         }
 
-        public Builder entities(List<MessageEntity> entities) {
+        public Builder entities(MessageEntity[] entities) {
             this.entities = entities;
             return this;
         }

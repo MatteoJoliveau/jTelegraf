@@ -1,49 +1,60 @@
-package com.matteojoliveau.jtelegraf.core.types;
+package com.matteojoliveau.jtelegraf.telegram.api.types;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @EqualsAndHashCode
 @ToString
 public class Chat {
+    @JsonProperty("id")
     private Long id;
-    private ChatType type;
+    @JsonProperty("type")
+    private String type;
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("username")
     private String username;
+    @JsonProperty("first_name")
     private String firstName;
+    @JsonProperty("last_name")
     private String lastName;
+    @JsonProperty("all_members_are_administrators")
     private Boolean allMembersAdmin;
 
     private Chat(Builder builder) {
         this.id = builder.id;
         this.type = builder.type;
         switch (type) {
-            case PRIVATE:
+            case "private":
                 this.firstName = builder.firstName;
                 this.lastName = builder.lastName;
                 this.username = builder.username;
                 break;
-            case SUPERGROUP:
+            case "supergroup":
                 this.title = builder.title;
                 this.username = builder.username;
                 this.allMembersAdmin = builder.allMembersAdmin;
                 break;
-            case GROUP:
+            case "group":
                 this.title = builder.title;
                 this.allMembersAdmin = builder.allMembersAdmin;
                 break;
-            case CHANNEL:
+            case "channel":
                 this.title = builder.title;
                 this.username = builder.username;
                 break;
         }
     }
 
+    public Chat() {
+    }
+
     public Long getId() {
         return id;
     }
 
-    public ChatType getType() {
+    public String getType() {
         return type;
     }
 
@@ -69,7 +80,7 @@ public class Chat {
 
     public static class Builder {
         private Long id;
-        private ChatType type;
+        private String type;
         private String title;
         private String username;
         private String firstName;
@@ -102,7 +113,7 @@ public class Chat {
             return this;
         }
 
-        public Builder type(ChatType type) {
+        public Builder type(String type) {
             this.type = type;
             return this;
         }
@@ -117,22 +128,4 @@ public class Chat {
         }
     }
 
-    public enum ChatType {
-        PRIVATE("private"),
-        GROUP("group"),
-        SUPERGROUP("supergroup"),
-        CHANNEL("channel");
-
-        private final String label;
-
-        ChatType(String label) {
-            this.label = label;
-        }
-
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
 }

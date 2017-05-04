@@ -1,15 +1,23 @@
-package com.matteojoliveau.jtelegraf.core.types;
+package com.matteojoliveau.jtelegraf.telegram.api.types;
 
 import lombok.Getter;
 import lombok.ToString;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @Getter
 @ToString
 public class User {
+    @JsonProperty("id")
     private Long id;
+    @JsonProperty("first_name")
     private String firstName;
+    @JsonProperty("last_name")
     private String lastName;
+    @JsonProperty("username")
     private String username;
+
+    public User() {
+    }
 
     public User(Long id, String firstName) {
         this.id = id;
