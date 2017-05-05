@@ -12,5 +12,11 @@ public class TelegramBotTest {
         bot.on("text", (ctx) -> {
             ctx.reply("ciao");
         });
+
+        bot.command("salve", ctx -> ctx.reply("Salve!"));
+
+        bot.startPolling();
     }
+
+
 }

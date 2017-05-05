@@ -2,40 +2,60 @@ package com.matteojoliveau.jtelegraf.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matteojoliveau.telegram.api.Telegram;
+import com.matteojoliveau.telegram.api.types.Message;
 import com.matteojoliveau.telegram.api.types.Update;
 import okhttp3.OkHttpClient;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public final class TelegramBot {
     private final Telegram telegram;
     private final UpdateDispatcher dispatcher;
-    private final ExecutorService executor;
     private final Map<String, ContextCallbackMethod> actions;
+    private final Map<String, ContextCallbackMethod> commands;
 
     public TelegramBot(String token) {
         this.telegram = new Telegram(token, new OkHttpClient(), new ObjectMapper());
-        this.executor = Executors.newFixedThreadPool(5);
         this.actions = new HashMap<>(0);
-        this.dispatcher = new UpdateDispatcher(telegram, actions);
+        commands = new HashMap<>();
+        this.dispatcher = new UpdateDispatcher(telegram, this);
     }
 
     public void on(String event, ContextCallbackMethod callback) {
         actions.put(event, callback);
-        List<Update> updates = telegram.getUpdates();
-        for (Update update : updates) {
-            UpdateHandler updateHandler = new UpdateHandler(update, callback);
-            executor.execute(updateHandler);
-
-        }
-        System.out.println("Doing stuff");
     }
 
-    public class UpdateHandler implements Runnable {
+    public void command(String command, ContextCallbackMethod callback) {
+        commands.put("/" + command, callback);
+    }
+
+    synchronized ContextCallbackMethod getTextHandler() {
+        return actions.get("text");
+    }
+
+    synchronized ContextCallbackMethod getCommandHandler(String command) {
+        return commands.get(command);
+    }
+
+    public void startPolling() {
+        dispatcher.poll();
+    }
+
+    public void stopPolling() {
+        dispatcher.stop();
+    }
+
+    UpdateHandler createUpdateHandler(Update update, ContextCallbackMethod callback) {
+        return new UpdateHandler(update, callback);
+    }
+
+
+    private class UpdateHandler implements Runnable {
 
         private final Update update;
         private ContextCallbackMethod callback;
@@ -51,4 +71,6 @@ public final class TelegramBot {
             callback.execute(context);
         }
     }
+
+
 }
