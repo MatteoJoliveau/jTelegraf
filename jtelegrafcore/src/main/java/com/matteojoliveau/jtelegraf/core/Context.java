@@ -1,24 +1,19 @@
 package com.matteojoliveau.jtelegraf.core;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matteojoliveau.telegram.api.Telegram;
 import com.matteojoliveau.telegram.api.types.Chat;
 import com.matteojoliveau.telegram.api.types.Message;
 import com.matteojoliveau.telegram.api.types.Update;
 import com.matteojoliveau.telegram.api.types.User;
-import com.matteojoliveau.jtelegraf.core.config.TelegramInfo;
 import com.matteojoliveau.telegram.api.types.requests.SendMessage;
-import okhttp3.OkHttpClient;
 
 public class Context {
-    private TelegramInfo telegramInfo;
     private Update update;
     private final Telegram telegram;
 
-    public Context(TelegramInfo telegramInfo, Update update) {
-        this.telegramInfo = telegramInfo;
+    public Context(Update update, Telegram telegram) {
         this.update = update;
-        this.telegram = new Telegram(telegramInfo.getToken(), new OkHttpClient(), new ObjectMapper());
+        this.telegram = telegram;
     }
 
     public Update update() { return update; }
