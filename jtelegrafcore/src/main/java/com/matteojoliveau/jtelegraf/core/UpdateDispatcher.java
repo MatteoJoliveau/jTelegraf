@@ -1,7 +1,6 @@
 package com.matteojoliveau.jtelegraf.core;
 
 import com.matteojoliveau.telegram.api.Telegram;
-import com.matteojoliveau.telegram.api.types.CallbackQuery;
 import com.matteojoliveau.telegram.api.types.Message;
 import com.matteojoliveau.telegram.api.types.Update;
 import org.slf4j.Logger;
