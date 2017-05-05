@@ -1,12 +1,14 @@
 package com.matteojoliveau.jtelegraf.core;
 
-import com.matteojoliveau.jtelegraf.telegram.api.Telegram;
-import com.matteojoliveau.jtelegraf.telegram.api.types.Chat;
-import com.matteojoliveau.jtelegraf.telegram.api.types.Update;
-import com.matteojoliveau.jtelegraf.telegram.api.types.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.matteojoliveau.telegram.api.Telegram;
+import com.matteojoliveau.telegram.api.types.Chat;
+import com.matteojoliveau.telegram.api.types.Message;
+import com.matteojoliveau.telegram.api.types.Update;
+import com.matteojoliveau.telegram.api.types.User;
 import com.matteojoliveau.jtelegraf.core.config.TelegramInfo;
+import com.matteojoliveau.telegram.api.types.requests.SendMessage;
 import okhttp3.OkHttpClient;
-import org.codehaus.jackson.map.ObjectMapper;
 
 public class Context {
     private TelegramInfo telegramInfo;
@@ -30,5 +32,14 @@ public class Context {
     }
 
     public User me() { return telegram.getMe(); }
+
+    public Message reply(String text) {
+        return telegram.sendMessage(update.getMessage().getChat().getId(), text);
+    }
+
+    public Message replyWithHtml(String text) {
+        SendMessage message = new SendMessage.Builder().chatId(update.getMessage().getChat().getId()).text(text).parseMode("HTML").build();
+        return telegram.sendMessage(message);
+    }
 
 }

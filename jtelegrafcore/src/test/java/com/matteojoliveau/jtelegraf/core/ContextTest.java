@@ -1,9 +1,11 @@
 package com.matteojoliveau.jtelegraf.core;
 
 import com.matteojoliveau.jtelegraf.core.config.TelegramInfo;
-import com.matteojoliveau.jtelegraf.telegram.api.types.Message;
-import com.matteojoliveau.jtelegraf.telegram.api.types.Update;
-import com.matteojoliveau.jtelegraf.telegram.api.types.User;
+
+import com.matteojoliveau.telegram.api.types.Chat;
+import com.matteojoliveau.telegram.api.types.Message;
+import com.matteojoliveau.telegram.api.types.Update;
+import com.matteojoliveau.telegram.api.types.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,10 +29,55 @@ public class ContextTest {
 
     @Test
     public void getUser() throws Exception {
-        Message message = new Message.Builder().id(1L).user(new User.Builder().id(1L).firstName("Matteo").username("gamescodex").build()).build();
-        Update update = new Update(1L, message);
+        Message message = new Message.Builder()
+                .id(1L)
+                .user(new User.Builder()
+                        .id(1)
+                        .firstName("Matteo"
+                        ).username("gamescodex")
+                        .build())
+                .build();
+        Update update = new Update(1, message);
         Context ctx = new Context(info, update);
         User from = ctx.from();
         System.out.println(from);
+    }
+
+    @Test
+    public void reply() throws Exception {
+        Message message = new Message.Builder()
+                .id(1L)
+                .user(new User.Builder()
+                        .id(25591608)
+                        .firstName("Matteo")
+                        .username("gamescodex")
+                        .build())
+                .chat(new Chat.Builder()
+                        .id(25591608)
+                        .type("private")
+                        .build())
+                .build();
+        Update update = new Update(1, message);
+        Context ctx = new Context(info, update);
+        ctx.reply("ciao");
+    }
+
+    @Test
+    public void replyWithHtml() throws Exception {
+        Message message = new Message.Builder()
+                .id(1L)
+                .user(new User.Builder()
+                        .id(25591608)
+                        .firstName("Matteo")
+                        .username("gamescodex")
+                        .build())
+                .chat(new Chat.Builder()
+                        .id(25591608)
+                        .type("private")
+                        .build())
+                .build();
+        Update update = new Update(1, message);
+        Context ctx = new Context(info, update);
+        ctx.replyWithHtml("<i>ciao</i>");
     }
 }
