@@ -18,12 +18,14 @@ public class TelegramBotTest {
     public void name() throws Exception {
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
         TelegramBot bot = new TelegramBot("286303429:AAEZvX73ABB2o9zwBaUE2m_8HMLu9IctvHY");
-        bot.on("text", (ctx) -> {
-            ctx.reply("ciao");
-        });
 
+        /** Listens for text messages matching the provided regex */
+        bot.hears("^p.+", ctx -> ctx.reply("Il tuo messaggio inizia per P!"));
+
+        /** Listens for messages containing commands*/
         bot.command("salve", ctx -> ctx.reply("Salve!"));
 
+        /** Same as above, it includes an inline keyboard*/
         bot.command("start", ctx -> {
             InlineKeyboardButton button1 = new InlineKeyboardButton("Ciao!");
             InlineKeyboardButton button2 = new InlineKeyboardButton("Addio");
@@ -34,10 +36,14 @@ public class TelegramBotTest {
             ctx.reply("Prova i pulsanti!", markup);
         });
 
+        /** Reply to callback query if no action has been defined for the data */
         bot.on("callback_query", ctx -> {
             CallbackQuery callbackQuery = ctx.callbackQuery();
             ctx.reply("Hai scelto: " + callbackQuery.getData());
         });
+
+        /** Listens for a particular callback data from a callback query*/
+        bot.action("addio", ctx -> ctx.reply("Addio amico mio..."));
 
         bot.startPolling();
     }

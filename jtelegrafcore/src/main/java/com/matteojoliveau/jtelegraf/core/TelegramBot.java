@@ -2,51 +2,61 @@ package com.matteojoliveau.jtelegraf.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matteojoliveau.telegram.api.Telegram;
-import com.matteojoliveau.telegram.api.types.Message;
 import com.matteojoliveau.telegram.api.types.Update;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Set;
 
 public final class TelegramBot {
     private static final Logger LOGGER = LoggerFactory.getLogger(TelegramBot.class);
     private final Telegram telegram;
     private final UpdateDispatcher dispatcher;
-    private final Map<String, ContextCallbackMethod> actions;
+    private final Map<String, ContextCallbackMethod> updateTypes;
     private final Map<String, ContextCallbackMethod> commands;
+    private final Map<String, ContextCallbackMethod> textListeners;
+    private final Map<String, ContextCallbackMethod> actions;
 
     public TelegramBot(String token) {
         this.telegram = new Telegram(token, new OkHttpClient(), new ObjectMapper());
+        this.updateTypes = new HashMap<>(0);
+        this.commands = new HashMap<>(0);
+        this.textListeners = new HashMap<>(0);
         this.actions = new HashMap<>(0);
-        commands = new HashMap<>();
         this.dispatcher = new UpdateDispatcher(telegram, this);
         LOGGER.info("Created TelegramBot");
     }
 
-    public void on(String event, ContextCallbackMethod callback) {
-        actions.put(event, callback);
-        LOGGER.debug("Registered action for event: {}", event);
+    public void hears(String regex, ContextCallbackMethod callback) {
+        textListeners.put(regex, callback);
+        LOGGER.debug("Registered listener for regex: {}", regex);
+    }
+
+    public void on(String updateType, ContextCallbackMethod callback) {
+        updateTypes.put(updateType, callback);
+        LOGGER.debug("Registered action for update type: {}", updateType);
     }
 
     public void command(String command, ContextCallbackMethod callback) {
-        LOGGER.debug("Regitered command: {}", command);
         commands.put("/" + command, callback);
+        LOGGER.debug("Regitered command: {}", command);
     }
 
-    synchronized ContextCallbackMethod getTextHandler() {
-        return actions.get("text");
+    public void action(String callbackData, ContextCallbackMethod callback) {
+        actions.put(callbackData, callback);
+        LOGGER.debug("Registered action for callback data: {}", callbackData);
     }
 
     synchronized ContextCallbackMethod getCallbackQueryHandler() {
-        return actions.get("callback_query");
+        return updateTypes.get("callback_query");
     }
+
+    synchronized Set<Map.Entry<String, ContextCallbackMethod>> getTextListeners() { return textListeners.entrySet(); }
+
+    synchronized Set<Map.Entry<String, ContextCallbackMethod>> getCallbackActions() { return actions.entrySet(); }
 
     synchronized ContextCallbackMethod getCommandHandler(String command) {
         return commands.get(command);
