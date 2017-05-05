@@ -42,4 +42,9 @@ public class Context {
         return telegram.sendMessage(message);
     }
 
+    public Message replyWithMarkdown(String text) {
+        SendMessage message = new SendMessage.Builder().chatId(update.getMessage().getChat().getId()).text(text).parseMode("Markdown").build();
+        return telegram.sendMessage(message);
+    }
+
 }

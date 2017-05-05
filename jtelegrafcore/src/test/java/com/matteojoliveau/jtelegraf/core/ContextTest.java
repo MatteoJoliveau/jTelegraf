@@ -80,4 +80,23 @@ public class ContextTest {
         Context ctx = new Context(info, update);
         ctx.replyWithHtml("<i>ciao</i>");
     }
+
+    @Test
+    public void name() throws Exception {
+        Message message = new Message.Builder()
+                .id(1L)
+                .user(new User.Builder()
+                        .id(25591608)
+                        .firstName("Matteo")
+                        .username("gamescodex")
+                        .build())
+                .chat(new Chat.Builder()
+                        .id(25591608)
+                        .type("private")
+                        .build())
+                .build();
+        Update update = new Update(1, message);
+        Context ctx = new Context(info, update);
+        ctx.replyWithMarkdown("*ciao*");
+    }
 }
