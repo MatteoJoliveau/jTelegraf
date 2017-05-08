@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public final class TelegramBot {
@@ -58,8 +59,8 @@ public final class TelegramBot {
 
     synchronized Set<Map.Entry<String, ContextCallbackMethod>> getCallbackActions() { return actions.entrySet(); }
 
-    synchronized ContextCallbackMethod getCommandHandler(String command) {
-        return commands.get(command);
+    synchronized Optional<ContextCallbackMethod> getCommandHandler(String command) {
+        return Optional.ofNullable(commands.get(command));
     }
 
     public void startPolling() {

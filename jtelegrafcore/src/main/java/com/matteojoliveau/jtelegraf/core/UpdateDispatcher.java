@@ -38,11 +38,8 @@ class UpdateDispatcher {
                 lastUpdateId = update.getId() + 1;
                 if (update.hasMessage()) {
                     Message message = update.getMessage();
-                    if (Objects.equals('/', message.getText().charAt(0))) {
-                        ContextCallbackMethod commandHandler = bot.getCommandHandler(message.getText());
-                        if (!Objects.isNull(commandHandler)) {
-                            executor.execute(bot.createUpdateHandler(update, commandHandler));
-                        }
+                    if (message.getText().startsWith("/")) {
+                        bot.getCommandHandler("X").ifPresent(commandHandler -> executor.execute(bot.createUpdateHandler(update, commandHandler)));
                     } else {
                         Set<Map.Entry<String, ContextCallbackMethod>> textHandlers = bot.getTextListeners();
                         if (!textHandlers.isEmpty()) {
