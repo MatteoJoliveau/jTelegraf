@@ -25,7 +25,7 @@ class UpdateDispatcher {
     UpdateDispatcher(Telegram telegram, TelegramBot bot) {
         this.telegram = telegram;
         this.bot = bot;
-        this.executor = Executors.newFixedThreadPool(5);
+        this.executor = Executors.newCachedThreadPool();
         LOGGER.debug("Created UpdateDispatcher");
     }
 
@@ -39,7 +39,7 @@ class UpdateDispatcher {
                 if (update.hasMessage()) {
                     Message message = update.getMessage();
                     if (message.getText().startsWith("/")) {
-                        bot.getCommandHandler("X").ifPresent(commandHandler -> executor.execute(bot.createUpdateHandler(update, commandHandler)));
+                        bot.getCommandHandler(message.getText()).ifPresent(commandHandler -> executor.execute(bot.createUpdateHandler(update, commandHandler)));
                     } else {
                         Set<Map.Entry<String, ContextCallbackMethod>> textHandlers = bot.getTextListeners();
                         if (!textHandlers.isEmpty()) {

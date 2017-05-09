@@ -31,7 +31,7 @@ public class TelegramBotTest {
             InlineKeyboardButton button2 = new InlineKeyboardButton("Addio");
             button1.setCallbackData("ciao");
             button2.setCallbackData("addio");
-            List<List<Button>> keyboard = Collections.singletonList(Arrays.asList(button1, button2));
+            List<List<InlineKeyboardButton>> keyboard = Collections.singletonList(Arrays.asList(button1, button2));
             InlineKeyboardMarkup markup = new InlineKeyboardMarkup(keyboard);
             ctx.reply("Prova i pulsanti!", markup);
         });

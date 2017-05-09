@@ -31,9 +31,9 @@ public class ContextTest {
 
     @Test
     public void getUser() throws Exception {
-        Message message = new Message.Builder()
+        Message message = Message.builder()
                 .id(1L)
-                .user(new User.Builder()
+                .user(User.builder()
                         .id(1)
                         .firstName("Matteo"
                         ).username("gamescodex")
@@ -47,14 +47,14 @@ public class ContextTest {
 
     @Test
     public void reply() throws Exception {
-        Message message = new Message.Builder()
+        Message message = Message.builder()
                 .id(1L)
-                .user(new User.Builder()
+                .user(User.builder()
                         .id(25591608)
                         .firstName("Matteo")
                         .username("gamescodex")
                         .build())
-                .chat(new Chat.Builder()
+                .chat(Chat.builder()
                         .id(25591608)
                         .type("private")
                         .build())
@@ -66,14 +66,14 @@ public class ContextTest {
 
     @Test
     public void replyWithHtml() throws Exception {
-        Message message = new Message.Builder()
+        Message message = Message.builder()
                 .id(1L)
-                .user(new User.Builder()
+                .user(User.builder()
                         .id(25591608)
                         .firstName("Matteo")
                         .username("gamescodex")
                         .build())
-                .chat(new Chat.Builder()
+                .chat(Chat.builder()
                         .id(25591608)
                         .type("private")
                         .build())
@@ -85,14 +85,14 @@ public class ContextTest {
 
     @Test
     public void name() throws Exception {
-        Message message = new Message.Builder()
+        Message message = Message.builder()
                 .id(1L)
-                .user(new User.Builder()
+                .user(User.builder()
                         .id(25591608)
                         .firstName("Matteo")
                         .username("gamescodex")
                         .build())
-                .chat(new Chat.Builder()
+                .chat(Chat.builder()
                         .id(25591608)
                         .type("private")
                         .build())

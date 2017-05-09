@@ -45,7 +45,7 @@ public class Context {
     }
 
     public Message reply(String text, Markup markup) {
-        SendMessage message = new SendMessage.Builder()
+        SendMessage message = SendMessage.builder()
                 .chatId(update.getMessage().getChat().getId())
                 .text(text)
                 .replyMarkup(markup)
@@ -54,7 +54,7 @@ public class Context {
     }
 
     public Message replyWithHtml(String text) {
-        SendMessage message = new SendMessage.Builder()
+        SendMessage message = SendMessage.builder()
                 .chatId(update.getMessage().getChat().getId())
                 .text(text)
                 .parseMode("HTML")
@@ -63,7 +63,7 @@ public class Context {
     }
 
     public Message replyWithHtml(String text, Markup markup) {
-        SendMessage message = new SendMessage.Builder()
+        SendMessage message = SendMessage.builder()
                 .chatId(update.getMessage().getChat().getId())
                 .text(text)
                 .replyMarkup(markup)
@@ -73,12 +73,12 @@ public class Context {
     }
 
     public Message replyWithMarkdown(String text) {
-        SendMessage message = new SendMessage.Builder().chatId(update.getMessage().getChat().getId()).text(text).parseMode("Markdown").build();
+        SendMessage message = SendMessage.builder().chatId(update.getMessage().getChat().getId()).text(text).parseMode("Markdown").build();
         return telegram.sendMessage(message);
     }
 
     public Message replyWithMarkdown(String text, Markup markup) {
-        SendMessage message = new SendMessage.Builder()
+        SendMessage message = SendMessage.builder()
                 .chatId(update.getMessage().getChat().getId())
                 .text(text)
                 .replyMarkup(markup)
